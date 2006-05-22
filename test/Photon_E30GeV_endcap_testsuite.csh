@@ -10,13 +10,19 @@ eval `scramv1 ru -csh`
 
 setenv WORKDIR `pwd`
 
+setenv ECALREFDIR  /afs/cern.ch/cms/data/CMSSW/Validation/EcalDigis/data
+
 echo "===================> Step1: executing EDProducer (SimCalorimetry/EcalSimProducers) for Photon_E30GeV_endcap"
 
 /bin/rm ${WORKDIR}/Photon_E30GeV_endcap_testsuite1_.cfg >& /dev/null
 
 sed 's/simevent.root/Photon_E30GeV_endcap_simevent.root/' ${CMSSW_RELEASE_BASE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
 
+ln -sf ${ECALREFDIR}/Photon_E30GeV_endcap_simevent.root ${WORKDIR}/Photon_E30GeV_endcap_simevent.root
+
 cmsRun --parameter-set ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
+
+/bin/rm ${WORKDIR}/Photon_E30GeV_endcap_simevent.root
 
 mv digis.root Photon_E30GeV_endcap_digis.root
 mv digis001.root Photon_E30GeV_endcap_digis001.root

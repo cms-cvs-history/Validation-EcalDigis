@@ -10,13 +10,19 @@ eval `scramv1 ru -csh`
 
 setenv WORKDIR `pwd`
 
+setenv ECALREFDIR  /afs/cern.ch/cms/data/CMSSW/Validation/EcalDigis/data
+
 echo "===================> Step1: executing EDProducer (SimCalorimetry/EcalSimProducers) for Pion_Pt60GeV_all"
 
 /bin/rm ${WORKDIR}/Pion_Pt60GeV_all_testsuite1_.cfg >& /dev/null
 
 sed 's/simevent.root/Pion_Pt60GeV_all_simevent.root/' ${CMSSW_RELEASE_BASE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
 
+ln -sf ${ECALREFDIR}/Pion_Pt60GeV_all_simevent.root ${WORKDIR}/Pion_Pt60GeV_all_simevent.root
+
 cmsRun --parameter-set ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
+
+/bin/rm ${WORKDIR}/Pion_Pt60GeV_all_simevent.root
 
 mv digis.root Pion_Pt60GeV_all_digis.root
 mv digis001.root Pion_Pt60GeV_all_digis001.root
