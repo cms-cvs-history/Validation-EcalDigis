@@ -16,7 +16,8 @@ echo "===================> Step1: executing EDProducer (SimCalorimetry/EcalSimPr
 
 /bin/rm ${WORKDIR}/Photon_E30GeV_all_testsuite1_.cfg >& /dev/null
 
-sed 's/simevent.root/Photon_E30GeV_all_simevent.root/' ${CMSSW_RELEASE_BASE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_all_testsuite1.cfg
+#sed 's/simevent.root/Photon_E30GeV_all_simevent.root/' ${CMSSW_RELEASE_BASE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_all_testsuite1.cfg
+sed 's/simevent.root/Photon_E30GeV_all_simevent.root/' ${CMSSW_RELEASE_BASE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_all_testsuite1.cfg
 
 ln -sf ${ECALREFDIR}/Photon_E30GeV_all_simevent.root ${WORKDIR}/Photon_E30GeV_all_simevent.root
 
