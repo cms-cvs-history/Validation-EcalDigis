@@ -10,14 +10,17 @@ eval `scramv1 ru -csh`
 
 setenv WORKDIR `pwd`
 
+setenv SWSOURCE $CMSSW_RELEASE_BASE
+#setenv SWSOURCE $CMSSW_BASE
+
 setenv ECALREFDIR  /afs/cern.ch/cms/data/CMSSW/Validation/EcalDigis/data
 
 echo "===================> Step1: executing EDProducer (SimCalorimetry/EcalSimProducers) for Photon_E30GeV_endcap"
 
 /bin/rm ${WORKDIR}/Photon_E30GeV_endcap_testsuite1_.cfg >& /dev/null
 
-#sed 's/simevent.root/Photon_E30GeV_endcap_simevent.root/' ${CMSSW_RELEASE_BASE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
-sed 's/simevent.root/Photon_E30GeV_endcap_simevent.root/' ${CMSSW_RELEASE_BASE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
+#sed 's/simevent.root/Photon_E30GeV_endcap_simevent.root/' ${SWSOURCE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
+sed 's/simevent.root/Photon_E30GeV_endcap_simevent.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
 
 ln -sf ${ECALREFDIR}/Photon_E30GeV_endcap_simevent.root ${WORKDIR}/Photon_E30GeV_endcap_simevent.root
 
@@ -32,7 +35,7 @@ echo "===================> Step2: executing EDAnalyser (Validation/EcalDigis) fo
 
 /bin/rm ${WORKDIR}/Photon_E30GeV_endcap_testsuite2.cfg >& /dev/null
 
-sed s/digis.root/Photon_E30GeV_endcap_digis.root\',\'file:Photon_E30GeV_endcap_digis001.root/ ${CMSSW_RELEASE_BASE}/src/Validation/EcalDigis/test/EcalDigisAnalysis.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite2.cfg
+sed s/digis.root/Photon_E30GeV_endcap_digis.root\',\'file:Photon_E30GeV_endcap_digis001.root/ ${SWSOURCE}/src/Validation/EcalDigis/test/EcalDigisAnalysis.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite2.cfg
 
 cmsRun --parameter-set ${WORKDIR}/Photon_E30GeV_endcap_testsuite2.cfg
 
@@ -42,11 +45,11 @@ echo "===================> Step3: executing ROOT macro for Photon_E30GeV_endcap"
 
 /bin/rm ${WORKDIR}/Photon_E30GeV_endcap_testsuite3.C >& /dev/null
 
-sed 's/EcalDigisValidation_old.root/Photon_E30GeV_endcap_EcalDigisValidation_old.root/' ${CMSSW_RELEASE_BASE}/src/Validation/EcalDigis/test/EcalDigisPlotCompare.C | sed 's/EcalDigisValidation_new.root/Photon_E30GeV_endcap_EcalDigisValidation_new.root/' | sed 's/EcalDigisPlotCompare/Photon_E30GeV_endcap_testsuite3/' >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite3.C
+sed 's/EcalDigisValidation_old.root/Photon_E30GeV_endcap_EcalDigisValidation_old.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalDigisPlotCompare.C | sed 's/EcalDigisValidation_new.root/Photon_E30GeV_endcap_EcalDigisValidation_new.root/' | sed 's/EcalDigisPlotCompare/Photon_E30GeV_endcap_testsuite3/' >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite3.C
 
-cp ${CMSSW_RELEASE_BASE}/src/Validation/EcalDigis/test/HistoCompare.C ${WORKDIR}
+cp ${SWSOURCE}/src/Validation/EcalDigis/test/HistoCompare.C ${WORKDIR}
 
-cp ${CMSSW_RELEASE_BASE}/src/Validation/EcalDigis/data/Photon_E30GeV_endcap_EcalDigisValidation.root ${WORKDIR}/Photon_E30GeV_endcap_EcalDigisValidation_old.root
+cp ${SWSOURCE}/src/Validation/EcalDigis/data/Photon_E30GeV_endcap_EcalDigisValidation.root ${WORKDIR}/Photon_E30GeV_endcap_EcalDigisValidation_old.root
 cp Photon_E30GeV_endcap_EcalDigisValidation_new.root ${WORKDIR}
 
 cd ${WORKDIR} ; root -b -q ${WORKDIR}/Photon_E30GeV_endcap_testsuite3.C
