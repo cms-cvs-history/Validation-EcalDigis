@@ -14,19 +14,20 @@ setenv SWSOURCE $CMSSW_RELEASE_BASE
 #setenv SWSOURCE $CMSSW_BASE
 
 setenv ECALREFDIR  /afs/cern.ch/cms/data/CMSSW/Validation/EcalDigis/data
+#setenv ECALREFDIR `pwd`
 
 echo "===================> Step1: executing EDProducer (SimCalorimetry/EcalSimProducers) for Pion_Pt60GeV_all"
 
-/bin/rm ${WORKDIR}/Pion_Pt60GeV_all_testsuite1_.cfg >& /dev/null
+/bin/rm ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg >& /dev/null
 
-#sed 's/simevent.root/Pion_Pt60GeV_all_simevent.root/' ${SWSOURCE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
-sed 's/simevent.root/Pion_Pt60GeV_all_simevent.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
+#sed 's/simevent.root/PionSimHit_Pt60GeV_all.root/' ${SWSOURCE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
+sed 's/simevent.root/PionSimHit_Pt60GeV_all.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
 
-ln -sf ${ECALREFDIR}/Pion_Pt60GeV_all_simevent.root ${WORKDIR}/Pion_Pt60GeV_all_simevent.root
+ln -sf ${ECALREFDIR}/PionSimHit_Pt60GeV_all.root ${WORKDIR}/PionSimHit_Pt60GeV_all.root
 
 cmsRun --parameter-set ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
 
-/bin/rm ${WORKDIR}/Pion_Pt60GeV_all_simevent.root
+/bin/rm ${WORKDIR}/PionSimHit_Pt60GeV_all.root
 
 mv digis.root Pion_Pt60GeV_all_digis.root
 mv digis001.root Pion_Pt60GeV_all_digis001.root

@@ -14,19 +14,20 @@ setenv SWSOURCE $CMSSW_RELEASE_BASE
 #setenv SWSOURCE $CMSSW_BASE
 
 setenv ECALREFDIR  /afs/cern.ch/cms/data/CMSSW/Validation/EcalDigis/data
+#setenv ECALREFDIR `pwd`
 
 echo "===================> Step1: executing EDProducer (SimCalorimetry/EcalSimProducers) for Photon_E30GeV_endcap"
 
 /bin/rm ${WORKDIR}/Photon_E30GeV_endcap_testsuite1_.cfg >& /dev/null
 
-#sed 's/simevent.root/Photon_E30GeV_endcap_simevent.root/' ${SWSOURCE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
-sed 's/simevent.root/Photon_E30GeV_endcap_simevent.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
+#sed 's/simevent.root/PhotonSimHit_E30GeV_endcap.root/' ${SWSOURCE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
+sed 's/simevent.root/PhotonSimHit_E30GeV_endcap.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
 
-ln -sf ${ECALREFDIR}/Photon_E30GeV_endcap_simevent.root ${WORKDIR}/Photon_E30GeV_endcap_simevent.root
+ln -sf ${ECALREFDIR}/PhotonSimHit_E30GeV_endcap.root ${WORKDIR}/PhotonSimHit_E30GeV_endcap.root
 
 cmsRun --parameter-set ${WORKDIR}/Photon_E30GeV_endcap_testsuite1.cfg
 
-/bin/rm ${WORKDIR}/Photon_E30GeV_endcap_simevent.root
+/bin/rm ${WORKDIR}/PhotonSimHit_E30GeV_endcap.root
 
 mv digis.root Photon_E30GeV_endcap_digis.root
 mv digis001.root Photon_E30GeV_endcap_digis001.root
