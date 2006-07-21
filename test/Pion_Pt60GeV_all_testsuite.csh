@@ -14,13 +14,15 @@ setenv SWSOURCE $CMSSW_RELEASE_BASE
 #setenv SWSOURCE $CMSSW_BASE
 
 setenv ECALREFDIR  /afs/cern.ch/cms/data/CMSSW/Validation/EcalDigis/data
+#setenv ECALREFDIR  `pwd`
 
 echo "===================> Step1: executing EDProducer (SimCalorimetry/EcalSimProducers) for Pion_Pt60GeV_all"
 
 /bin/rm ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg >& /dev/null
 
 #sed 's/simevent.root/Pion_Pt60GeV_all_simevent.root/' ${SWSOURCE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
-sed 's/simevent.root/Pion_Pt60GeV_all_simevent.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
+#sed 's/simevent.root/Pion_Pt60GeV_all_simevent.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
+sed 's/reco-application-ecal-simulation.root/Pion_Pt60GeV_all_simevent.root/' ${CMSSW_BASE}/src/Configuration/Applications/data/reco-application-ecal-digitization.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
 
 ln -sf ${ECALREFDIR}/Pion_Pt60GeV_all_simevent.root ${WORKDIR}/Pion_Pt60GeV_all_simevent.root
 
@@ -28,14 +30,14 @@ cmsRun --parameter-set ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
 
 /bin/rm ${WORKDIR}/Pion_Pt60GeV_all_simevent.root
 
-mv digis.root Pion_Pt60GeV_all_digis.root
-mv digis001.root Pion_Pt60GeV_all_digis001.root
+mv reco-application-ecal-digitization.root Pion_Pt60GeV_all_digis.root
 
 echo "===================> Step2: executing EDAnalyser (Validation/EcalDigis) for Pion_Pt60GeV_all"
 
 /bin/rm ${WORKDIR}/Pion_Pt60GeV_all_testsuite2.cfg >& /dev/null
 
-sed s/digis.root/Pion_Pt60GeV_all_digis.root/ ${SWSOURCE}/src/Validation/EcalDigis/test/EcalDigisAnalysis.cfg | sed 's/RandomEGun/RandomPtGun/' >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite2.cfg
+#sed s/digis.root/Pion_Pt60GeV_all_digis.root\',\'file:Pion_Pt60GeV_all_digis001.root/ ${SWSOURCE}/src/Validation/EcalDigis/test/EcalDigisAnalysis.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite2.cfg
+sed s/digis.root/Pion_Pt60GeV_all_digis.root/ ${SWSOURCE}/src/Validation/EcalDigis/test/EcalDigisAnalysis.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite2.cfg
 
 cmsRun --parameter-set ${WORKDIR}/Pion_Pt60GeV_all_testsuite2.cfg
 

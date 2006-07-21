@@ -14,13 +14,15 @@ setenv SWSOURCE $CMSSW_RELEASE_BASE
 #setenv SWSOURCE $CMSSW_BASE
 
 setenv ECALREFDIR  /afs/cern.ch/cms/data/CMSSW/Validation/EcalDigis/data
+#setenv ECALREFDIR  `pwd`
 
 echo "===================> Step1: executing EDProducer (SimCalorimetry/EcalSimProducers) for Photon_E30GeV_all"
 
 /bin/rm ${WORKDIR}/Photon_E30GeV_all_testsuite1.cfg >& /dev/null
 
 #sed 's/simevent.root/Photon_E30GeV_all_simevent.root/' ${SWSOURCE}/src/SimCalorimetry/EcalSimProducers/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_all_testsuite1.cfg
-sed 's/simevent.root/Photon_E30GeV_all_simevent.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_all_testsuite1.cfg
+#sed 's/simevent.root/Photon_E30GeV_all_simevent.root/' ${SWSOURCE}/src/Validation/EcalDigis/test/EcalSimProducer.cfg >&! ${WORKDIR}/Photon_E30GeV_all_testsuite1.cfg
+sed 's/reco-application-ecal-simulation.root/Photon_E30GeV_all_simevent.root/' ${CMSSW_BASE}/src/Configuration/Applications/data/reco-application-ecal-digitization.cfg >&! ${WORKDIR}/Photon_E30GeV_all_testsuite1.cfg
 
 ln -sf ${ECALREFDIR}/Photon_E30GeV_all_simevent.root ${WORKDIR}/Photon_E30GeV_all_simevent.root
 
@@ -28,8 +30,7 @@ cmsRun --parameter-set ${WORKDIR}/Photon_E30GeV_all_testsuite1.cfg
 
 /bin/rm ${WORKDIR}/Photon_E30GeV_all_simevent.root
 
-mv digis.root Photon_E30GeV_all_digis.root
-mv digis001.root Photon_E30GeV_all_digis001.root
+mv reco-application-ecal-digitization.root Photon_E30GeV_all_digis.root
 
 echo "===================> Step2: executing EDAnalyser (Validation/EcalDigis) for Photon_E30GeV_all"
 
