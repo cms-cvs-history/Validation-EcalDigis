@@ -1,0 +1,4 @@
+  module ecalPreshowerDigisValidation = EcalPreshowerDigisValidation{ 
+         InputTag ESdigiCollection = ecalPreshowerDigis
+         untracked bool verbose = true 
+  }

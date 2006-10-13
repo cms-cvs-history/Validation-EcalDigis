@@ -1,0 +1,14 @@
+  # Geometry service for reconstruction      
+  include "Geometry/CaloEventSetup/data/CaloGeometry.cfi"
+
+  # Condition objects access
+  include "CalibCalorimetry/EcalTrivialCondModules/data/EcalTrivialCondRetriever.cfi" 
+	
+  # Run the complete ECAL digis validation set
+
+  include "Validation/EcalDigis/data/ecalDigisValidation.cfi"
+  include "Validation/EcalDigis/data/ecalBarrelDigisValidation.cfi"
+  include "Validation/EcalDigis/data/ecalEndcapDigisValidation.cfi"
+  include "Validation/EcalDigis/data/ecalPreshowerDigisValidation.cfi"
+
+  sequence ecalDigisValidationSequence = { ecalDigisValidation , ecalBarrelDigisValidation , ecalEndcapDigisValidation , ecalPreshowerDigisValidation }

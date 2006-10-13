@@ -1,0 +1,4 @@
+ module ecalEndcapDigisValidation = EcalEndcapDigisValidation{ 
+        InputTag EEdigiCollection = ecalDigis:eeDigis
+        untracked bool verbose = true 
+ }                                  
