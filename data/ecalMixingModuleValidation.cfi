@@ -1,5 +1,7 @@
 include "SimCalorimetry/EcalSimProducers/data/ecalSimParameterMap.cff"
 
+include "SimCalorimetry/EcalSimProducers/data/esElectronicsSim.cff"
+
 module ecalMixingModuleValidation = EcalMixingModuleValidation {
     string moduleLabelMC = 'source'
     InputTag EBdigiCollection = ecalDigis:ebDigis
@@ -7,6 +9,8 @@ module ecalMixingModuleValidation = EcalMixingModuleValidation {
     InputTag ESdigiCollection = ecalPreshowerDigis
  
     using ecal_sim_parameter_map
+
+    using es_electronics_sim
 
     untracked bool verbose = true
   
