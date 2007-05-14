@@ -1,0 +1,8 @@
+module ecalSelectiveReadoutValidation = EcalSelectiveReadoutValidation {
+  InputTag EbDigiCollection = ecalDigis:ebDigis
+  InputTag EeDigiCollection = ecalDigis:eeDigis
+  InputTag EbSrFlagCollection = ecalDigis:ebSrFlags
+  InputTag EeSrFlagCollection = ecalDigis:eeSrFlags
+  untracked bool verbose = true
+  untracked string outputFile = "EcalSelectiveReadoutValidationHistos.root"
+}
