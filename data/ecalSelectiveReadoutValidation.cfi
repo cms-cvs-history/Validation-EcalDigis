@@ -1,8 +1,17 @@
 module ecalSelectiveReadoutValidation = EcalSelectiveReadoutValidation {
   InputTag EbDigiCollection = ecalDigis:ebDigis
   InputTag EeDigiCollection = ecalDigis:eeDigis
+  InputTag EbUnsuppressedDigiCollection = ecalUnsuppressedDigis:
+  InputTag EeUnsuppressedDigiCollection = ecalUnsuppressedDigis:
   InputTag EbSrFlagCollection = ecalDigis:ebSrFlags
   InputTag EeSrFlagCollection = ecalDigis:eeSrFlags
+  InputTag EbSimHitCollection = g4SimHits:EcalHitsEB
+  InputTag EeSimHitCollection = g4SimHits:EcalHitsEE
+  InputTag TrigPrimCollection = ecalTriggerPrimitiveDigis:
+  InputTag EbRecHitCollection = ecalRecHit:EcalRecHitsEB
+  InputTag EeRecHitCollection = ecalRecHit:EcalRecHitsEE
   untracked bool verbose = true
   untracked string outputFile = "EcalSelectiveReadoutValidationHistos.root"
+  bool LocalReco = true
+  vdouble weights = {-0.295252, -0.295252, -0.295252, -0.286034, 0.240376, 0.402839, 0.322126, 0.172504, 0.0339461, 0.} #my computation
 }
