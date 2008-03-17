@@ -1,9 +1,3 @@
-  # Geometry service for reconstruction      
-  include "Geometry/CaloEventSetup/data/CaloGeometry.cff"
-
-  # Condition objects access
-  include "CalibCalorimetry/EcalTrivialCondModules/data/EcalTrivialCondRetriever.cfi" 
-	
   # Run the complete ECAL digis validation set
 
   include "Validation/EcalDigis/data/ecalDigisValidation.cfi"
