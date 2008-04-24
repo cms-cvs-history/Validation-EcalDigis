@@ -1,17 +1,17 @@
   # Run the complete ECAL digis validation set
 
   include "Validation/EcalDigis/data/ecalDigisValidation.cfi"
-  replace ecalDigisValidation.EBdigiCollection = ecalUnsuppressedDigis
-  replace ecalDigisValidation.EEdigiCollection = ecalUnsuppressedDigis
-  replace ecalDigisValidation.ESdigiCollection = ecalUnsuppressedDigis
+  replace ecalDigisValidation.EBdigiCollection = simEcalUnsuppressedDigis
+  replace ecalDigisValidation.EEdigiCollection = simEcalUnsuppressedDigis
+  replace ecalDigisValidation.ESdigiCollection = simEcalUnsuppressedDigis
 
   include "Validation/EcalDigis/data/ecalBarrelDigisValidation.cfi"
-  replace ecalBarrelDigisValidation.EBdigiCollection = ecalUnsuppressedDigis
+  replace ecalBarrelDigisValidation.EBdigiCollection = simEcalUnsuppressedDigis
 
   include "Validation/EcalDigis/data/ecalEndcapDigisValidation.cfi"
-  replace ecalEndcapDigisValidation.EEdigiCollection = ecalUnsuppressedDigis
+  replace ecalEndcapDigisValidation.EEdigiCollection = simEcalUnsuppressedDigis
 
   include "Validation/EcalDigis/data/ecalPreshowerDigisValidation.cfi"
-  replace ecalPreshowerDigisValidation.ESdigiCollection = ecalUnsuppressedDigis
+  replace ecalPreshowerDigisValidation.ESdigiCollection = simEcalUnsuppressedDigis
 
   sequence ecalUnsuppressedDigisValidationSequence = { ecalDigisValidation , ecalBarrelDigisValidation , ecalEndcapDigisValidation , ecalPreshowerDigisValidation }

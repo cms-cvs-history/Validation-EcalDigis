@@ -1,4 +1,4 @@
  module ecalEndcapDigisValidation = EcalEndcapDigisValidation{ 
-        InputTag EEdigiCollection = ecalDigis:eeDigis
+        InputTag EEdigiCollection = simEcalDigis:eeDigis
         untracked bool verbose = true 
  }                                  

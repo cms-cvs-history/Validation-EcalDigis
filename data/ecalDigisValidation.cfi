@@ -1,9 +1,9 @@
   module ecalDigisValidation =  EcalDigisValidation {
 	string moduleLabelMC = 'source' 
 	string moduleLabelG4 = 'g4SimHits' 
-    InputTag EBdigiCollection = ecalDigis:ebDigis
-    InputTag EEdigiCollection = ecalDigis:eeDigis
-    InputTag ESdigiCollection = ecalPreshowerDigis
+    InputTag EBdigiCollection = simEcalDigis:ebDigis
+    InputTag EEdigiCollection = simEcalDigis:eeDigis
+    InputTag ESdigiCollection = simEcalPreshowerDigis
 
     untracked string outputFile = 'EcalDigisValidation.root'
     untracked bool verbose = true
