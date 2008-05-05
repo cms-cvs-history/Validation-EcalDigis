@@ -4,6 +4,7 @@ include "SimCalorimetry/EcalSimProducers/data/esElectronicsSim.cff"
 
 module ecalMixingModuleValidation = EcalMixingModuleValidation {
     string moduleLabelMC = 'source'
+    string hitsProducer = 'g4SimHits'
     InputTag EBdigiCollection = simEcalDigis:ebDigis
     InputTag EEdigiCollection = simEcalDigis:eeDigis
     InputTag ESdigiCollection = simEcalPreshowerDigis
