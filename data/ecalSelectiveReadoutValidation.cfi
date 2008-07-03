@@ -1,13 +1,13 @@
 module ecalSelectiveReadoutValidation = EcalSelectiveReadoutValidation {
-  InputTag EbDigiCollection = simEcalDigis:ebDigis
-  InputTag EeDigiCollection = simEcalDigis:eeDigis
-  InputTag EbUnsuppressedDigiCollection = simEcalUnsuppressedDigis:
-  InputTag EeUnsuppressedDigiCollection = simEcalUnsuppressedDigis:
-  InputTag EbSrFlagCollection = simEcalDigis:ebSrFlags
-  InputTag EeSrFlagCollection = simEcalDigis:eeSrFlags
+  InputTag EbDigiCollection = ecalDigis:ebDigis
+  InputTag EeDigiCollection = ecalDigis:eeDigis
+  InputTag EbUnsuppressedDigiCollection = ecalUnsuppressedDigis:
+  InputTag EeUnsuppressedDigiCollection = ecalUnsuppressedDigis:
+  InputTag EbSrFlagCollection = ecalDigis:ebSrFlags
+  InputTag EeSrFlagCollection = ecalDigis:eeSrFlags
   InputTag EbSimHitCollection = g4SimHits:EcalHitsEB
   InputTag EeSimHitCollection = g4SimHits:EcalHitsEE
-  InputTag TrigPrimCollection = simEcalTriggerPrimitiveDigis:
+  InputTag TrigPrimCollection = ecalTriggerPrimitiveDigis:
   InputTag EbRecHitCollection = ecalRecHit:EcalRecHitsEB
   InputTag EeRecHitCollection = ecalRecHit:EcalRecHitsEE
   InputTag FEDRawCollection = source:
@@ -35,4 +35,7 @@ module ecalSelectiveReadoutValidation = EcalSelectiveReadoutValidation {
   #in order to get the list of available histograms. If the list contains
   #the keyword "all", every available histogram is produced.
   untracked vstring histograms = { "all" }
+
+  #Switch to enable or disable warning about missing collection
+  untracked bool warnIfCollectionNotFound = true
 }
