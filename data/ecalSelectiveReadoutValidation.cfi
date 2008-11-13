@@ -25,6 +25,13 @@ module ecalSelectiveReadoutValidation = EcalSelectiveReadoutValidation {
   #Weights used for the local reconstruction of the signal amplitude:
   vdouble weights = {-0.295252, -0.295252, -0.295252, -0.286034, 0.240376, 0.402839, 0.322126, 0.172504, 0.0339461, 0.} #my computation
 
+  #Weights used for the emulation of the DCC ZS FIR filter.
+  #Uses either normalized weights or integer hardware representation.
+  vdouble dccWeights = { -1215, 20, 297, 356, 308, 232 }
+
+  #Position of the first time sample the DCC FIR filter must start at:
+  int32 ecalDccZs1stSample = 3
+
   #Switch to express TP in GeV for the histograms:
   bool tpInGeV = true
 
