@@ -1,8 +1,8 @@
 /*
  * \file EcalSelectiveReadoutValidation.cc
  *
- * $Date: 2008/07/03 14:29:00 $
- * $Revision: 1.18 $
+ * $Date: 2008/11/20 11:22:18 $
+ * $Revision: 1.18.2.1 $
  *
  */
 
