@@ -1,4 +1,0 @@
-  module ecalBarrelDigisValidation = EcalBarrelDigisValidation{ 
-         InputTag EBdigiCollection = simEcalDigis:ebDigis
-         untracked bool verbose = true 
-  }     
