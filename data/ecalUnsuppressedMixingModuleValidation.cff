@@ -1,4 +1,0 @@
-include "Validation/EcalDigis/data/ecalMixingModuleValidation.cfi"
-replace ecalMixingModuleValidation.EBdigiCollection = simEcalUnsuppressedDigis
-replace ecalMixingModuleValidation.EEdigiCollection = simEcalUnsuppressedDigis
-replace ecalMixingModuleValidation.ESdigiCollection = simEcalUnsuppressedDigis
