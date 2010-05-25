@@ -1,8 +1,8 @@
 /*
  * \file EcalSelectiveReadoutValidation.cc
  *
- * $Date: 2009/11/16 10:46:29 $
- * $Revision: 1.26 $
+ * $Date: 2010/05/05 10:54:53 $
+ * $Revision: 1.30 $
  *
  */
 
@@ -157,9 +157,11 @@ EcalSelectiveReadoutValidation::EcalSelectiveReadoutValidation(const ParameterSe
 //     }
 //   }
 
-  double zsThr = ps.getParameter<double>("zsThrADCCount");
+  double ebZsThr = ps.getParameter<double>("ebZsThrADCCount");
+  double eeZsThr = ps.getParameter<double>("eeZsThrADCCount");
 
-  zsThr_ = lround(zsThr*4);
+  ebZsThr_ = lround(ebZsThr*4);
+  eeZsThr_ = lround(eeZsThr*4);
 
   //File to log SRP algorithem inconsistency
   srpAlgoErrorLogFileName_
@@ -371,7 +373,7 @@ EcalSelectiveReadoutValidation::EcalSelectiveReadoutValidation(const ParameterSe
                        80, -39.5, 40.5,
 		       72, .5, 72.5);
 
-  meLiTtf_ = book2D("h2LtTtf", //"EcalLowInterestTriggerTowerFlagMap",
+  meLiTtf_ = book2D("h2LiTtf", //"EcalLowInterestTriggerTowerFlagMap",
 		    "Low interest trigger tower flags;"
 		    "iEta;"
 		    "iPhi;"
@@ -421,7 +423,7 @@ EcalSelectiveReadoutValidation::EcalSelectiveReadoutValidation(const ParameterSe
   const float ebMaxE = ebMaxNoise;
 
   const float eeMinE = eeMinNoise;
-  const float eeMaxE = ebMaxNoise;
+  const float eeMaxE = eeMaxNoise;
 #endif
 
 
@@ -489,14 +491,14 @@ EcalSelectiveReadoutValidation::EcalSelectiveReadoutValidation(const ParameterSe
 		     100, eeMinE, eeMaxE);
 
   meEeEMean_ = bookProfile("hEeEMean",
-			   "<E_{EE hit}>;event #;<E_{hit}> (GeV)",
+			   "<E_{EE hit}>;event;<E_{hit}> (GeV)",
 			   evtMax, .5, evtMax + .5);
 
 
   meEeNoise_ = book1D("hEeNoise",
 		      "EE crystal noise "
 		      "(rec E of crystal without deposited energy);"
-		      "E (GeV); Event count",
+		      "E (GeV);Event count",
 		      200, eeMinNoise, eeMaxNoise);
 
   meEeLiZsFir_   = book1D("zsEeLiFIRemu",
@@ -594,15 +596,18 @@ EcalSelectiveReadoutValidation::EcalSelectiveReadoutValidation(const ParameterSe
                             "RU count;Event count",
                             200, -.5, 199.5);
 
-
+  stringstream buf;
+  buf << "Number of LI EB channels below the " << ebZsThr_/4. << " ADC count ZS threshold;"
+    "Channel count;Event count",
   meEbZsErrCnt_ = book1D("hEbZsErrCnt",
-                         "Number of LI EB channels below the ZS threshold;"
-                         "Channel count;Event count",
+                         buf.str().c_str(),
                          200, -.5, 199.5);
 
+  buf.str("");
+  buf << "Number of LI EE channels below the " << eeZsThr_/4. << " ADC count ZS theshold;"
+    "Channel count;Event count",
   meEeZsErrCnt_ = book1D("hEeZsErrCnt",
-                         "Number of LI EE channels below the ZS threshold;"
-                         "Channel count;Event count",
+                         buf.str().c_str(),
                          200, -.5, 199.5);
 
   meZsErrCnt_ = book1D("hZsErrCnt",
@@ -956,7 +961,7 @@ void EcalSelectiveReadoutValidation::analyzeEE(const edm::Event& event,
       } else{
         int v = dccZsFIR(frame, firWeights_, firstFIRSample_, 0);
         fill(meEeLiZsFir_, v);
-        if(v < zsThr_){
+        if(v < eeZsThr_){
           eventError = true;
           ++nEeZsErrors_;
           pair<int,int> ru = dccCh(frame.id());
@@ -1218,7 +1223,7 @@ EcalSelectiveReadoutValidation::analyzeEB(const edm::Event& event,
         } else{
           int v = dccZsFIR(frame, firWeights_, firstFIRSample_, 0);
           fill(meEbLiZsFir_, v);
-          if(v < zsThr_){
+          if(v < ebZsThr_){
             eventError = true;
             ++nEbZsErrors_;
             pair<int,int> ru = dccCh(frame.id());
@@ -1778,7 +1783,13 @@ EcalSelectiveReadoutValidation::readOutUnitOf(const EBDetId& xtalId) const{
 
 EcalScDetId
 EcalSelectiveReadoutValidation::readOutUnitOf(const EEDetId& xtalId) const{
-  return superCrystalOf(xtalId);
+  //  return superCrystalOf(xtalId);
+  const EcalElectronicsId& EcalElecId = elecMap_->getElectronicsId(xtalId);
+  int iDCC= EcalElecId.dccId();
+  int iDccChan = EcalElecId.towerId();
+  const bool ignoreSingle = true;
+  const vector<EcalScDetId> id = elecMap_->getEcalScDetId(iDCC, iDccChan, ignoreSingle);
+  return id.size()>0?id[0]:EcalScDetId();
 }
 
 void
@@ -2028,9 +2039,10 @@ double EcalSelectiveReadoutValidation::getEeEventSize(double nReadXtals) const{
 
 void EcalSelectiveReadoutValidation::normalizeHists(double eventCount){
   MonitorElement* mes[] = { meChOcc_, meTtf_, meTp_, meFullRoRu_,
-			    meZs1Ru_, meForcedRu_, meLiTtf_, meHiTtf_,
-                            meEbLiZsFir_, meEbHiZsFir_,
-                            meEeLiZsFir_, meEeHiZsFir_, };
+			    meZs1Ru_, meForcedRu_, meLiTtf_, meMiTtf_, meHiTtf_,
+			    //meEbLiZsFir_, meEbHiZsFir_,
+			    //meEeLiZsFir_, meEeHiZsFir_,
+  };
 
   double scale = 1./eventCount;
   stringstream buf;
@@ -2042,8 +2054,11 @@ void EcalSelectiveReadoutValidation::normalizeHists(double eventCount){
     } else{ //assuming TH1
       h->GetYaxis()->SetTitle("<Count>");
     }
-    buf << "Normalising " << h->GetName() << "\n";
+    buf << "Normalising " << h->GetName() << ". Factor: " << scale << "\n";
     h->Scale(scale);
+    //Set average bit so histogram can be added correctly. Beware must be done
+    //after call the TH1::Scale (Scale has no effect if average bit is set)
+    h->SetBit(TH1::kIsAverage);
   }
   edm::LogInfo("EcalSrValid") << buf.str();
 }
@@ -2386,11 +2401,11 @@ void EcalSelectiveReadoutValidation::checkSrApplication(const edm::Event& event,
 int EcalSelectiveReadoutValidation::getCrystalCount(int iDcc, int iDccCh){
   if(iDcc < minDccId_ || iDcc > maxDccId_){ //invalid DCC
     return 0;
-  } else {
+  } else if (10 <= iDcc && iDcc <= 45) {//EB
+    return 25;
+  } else { //EE
     int iDccPhi;
     if(iDcc < 10) iDccPhi = iDcc;
-    else if(iDcc < 28) iDccPhi = iDcc - 9;
-    else if(iDcc < 46) iDccPhi = iDcc - 27;
     else iDccPhi = iDcc - 45;
     switch(iDccPhi*100+iDccCh){
     case 110:
