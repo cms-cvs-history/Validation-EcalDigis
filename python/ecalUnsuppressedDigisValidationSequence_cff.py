@@ -6,10 +6,10 @@ from Validation.EcalDigis.ecalBarrelDigisValidation_cfi import *
 from Validation.EcalDigis.ecalEndcapDigisValidation_cfi import *
 from Validation.EcalDigis.ecalPreshowerDigisValidation_cfi import *
 ecalUnsuppressedDigisValidationSequence = cms.Sequence(ecalDigisValidation*ecalBarrelDigisValidation*ecalEndcapDigisValidation*ecalPreshowerDigisValidation)
-ecalDigisValidation.EBdigiCollection = 'simEcalUnsuppressedDigis'
-ecalDigisValidation.EEdigiCollection = 'simEcalUnsuppressedDigis'
-ecalDigisValidation.ESdigiCollection = 'simEcalUnsuppressedDigis'
-ecalBarrelDigisValidation.EBdigiCollection = 'simEcalUnsuppressedDigis'
-ecalEndcapDigisValidation.EEdigiCollection = 'simEcalUnsuppressedDigis'
-ecalPreshowerDigisValidation.ESdigiCollection = 'simEcalUnsuppressedDigis'
+ecalDigisValidation.EBdigiCollection = cms.InputTag('mix', 'simEcalUnsuppressedDigis')
+ecalDigisValidation.EEdigiCollection = cms.InputTag('mix', 'simEcalUnsuppressedDigis')
+ecalDigisValidation.ESdigiCollection = cms.InputTag('mix', 'simEcalUnsuppressedDigis')
+ecalBarrelDigisValidation.EBdigiCollection = cms.InputTag('mix', 'simEcalUnsuppressedDigis')
+ecalEndcapDigisValidation.EEdigiCollection = cms.InputTag('mix', 'simEcalUnsuppressedDigis')
+ecalPreshowerDigisValidation.ESdigiCollection = cms.InputTag('mix', 'simEcalUnsuppressedDigis')
 
