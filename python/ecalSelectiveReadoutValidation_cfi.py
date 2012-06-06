@@ -4,8 +4,8 @@ ecalSelectiveReadoutValidation = cms.EDAnalyzer("EcalSelectiveReadoutValidation"
     #Input collection names:
     EbDigiCollection = cms.InputTag("simEcalDigis","ebDigis"),
     EeDigiCollection = cms.InputTag("simEcalDigis","eeDigis"),
-    EbUnsuppressedDigiCollection = cms.InputTag("mix", "simEcalUnsuppressedDigis"),
-    EeUnsuppressedDigiCollection = cms.InputTag("mix", "simEcalUnsuppressedDigis"),
+    EbUnsuppressedDigiCollection = cms.InputTag("simEcalUnsuppressedDigis"),
+    EeUnsuppressedDigiCollection = cms.InputTag("simEcalUnsuppressedDigis"),
     EbSrFlagCollection = cms.InputTag("simEcalDigis","ebSrFlags"),
     EeSrFlagCollection = cms.InputTag("simEcalDigis","eeSrFlags"),
     EbSrFlagFromTTCollection = cms.InputTag("simEcalDigis","ebSrFlagsFromTT"),
